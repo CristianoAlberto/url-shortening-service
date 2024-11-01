@@ -3,6 +3,7 @@ import { Url } from "./url.entity";
 import { IUrl } from "./url.interface";
 import { IReturn } from "./url.interface";
 import shortid from 'shortid';
+import _ from "underscore";
 export class UrlRepository implements IUrl {
     private readonly urlRepo = AppDataSource.getMongoRepository(Url);
     async create(url: Url): Promise<IReturn<Url>> {
@@ -12,6 +13,7 @@ export class UrlRepository implements IUrl {
                 return { status: 400, message: "Url já existente" };
             }
             url.shortUrl = await this.generateUniqueShortUrl();
+            url.accessCount = 0;
             const newUrl = await this.urlRepo.save(url);
             return { status: 201, message: "Sucesso", data: newUrl };
         } catch (error) {
@@ -45,7 +47,9 @@ export class UrlRepository implements IUrl {
             if (!foundUrl) {
                 return { status: 404, message: "URL não encontrada." };
             }
-            return { status: 200, message: "URL encontrada.", data: foundUrl };
+            foundUrl.accessCount += 1;
+            await this.urlRepo.save(foundUrl);
+            return { status: 200, message: "URL encontrada.", data: _.omit(foundUrl, "accessCount") as Url };
         } catch (error) {
             console.error(error);
             return { status: 500, message: "Contate o administrador." };
@@ -66,6 +70,21 @@ export class UrlRepository implements IUrl {
         } catch (error) {
             console.error(error);
             return { status: 500, message: "Contactar o administrador" }
+        }
+    }
+    async showStats(shortUrl: string): Promise<IReturn<Url>> {
+        try {
+            if (!shortUrl) {
+                return { status: 400, message: "O shortUrl não pode estar vazio." };
+            }
+            const foundUrl = await this.urlRepo.findOneBy({ shortUrl, deletedAt: null });
+            if (!foundUrl) {
+                return { status: 404, message: "URL não encontrada." };
+            }
+            return { status: 200, message: "URL encontrada.", data: foundUrl };
+        } catch (error) {
+            console.error(error);
+            return { status: 500, message: "Contate o administrador." };
         }
     }
 

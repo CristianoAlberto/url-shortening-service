@@ -18,4 +18,8 @@ export class UrlController {
         const data = await this.service.delete(req.params.shortUrl);
         return res.status(data.status).json(data);
     }
+    showStats = async (req: Request, res: Response) => {
+        const data = await this.service.showStats(req.params.shortUrl);
+        return res.status(data.status).json(data);
+    }
 }

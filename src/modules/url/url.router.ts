@@ -5,6 +5,7 @@ const router = Router();
 const controller = new UrlController(new UrlRepository());
 router.post('/createUrl', controller.create);
 router.put('/updateUrl/:shortUrl', controller.updateUrl);
-router.put('/deleteUrl/:shortUrl', controller.delete);
+router.delete('/deleteUrl/:shortUrl', controller.delete);
 router.get('/findShortUrl/:shortUrl', controller.findByShortUrl)
+router.get('/shorten/:shortUrl/stats', controller.showStats)
 export { router }

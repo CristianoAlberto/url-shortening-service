@@ -7,6 +7,8 @@ export class Url {
     originalUrl: string;
     @Column()
     shortUrl: string;
+    @Column()
+    accessCount: number;
     @CreateDateColumn()
     createdAt: Date;
     @UpdateDateColumn()
@@ -17,6 +19,7 @@ export class Url {
         id: ObjectId,
         originalUrl: string,
         shortUrl: string,
+        accessCount: number,
         createdAt: Date,
         updatedAt: Date,
         deletedAt: Date,
@@ -24,6 +27,7 @@ export class Url {
         this.id = id;
         this.originalUrl = originalUrl;
         this.shortUrl = shortUrl;
+        this.accessCount = accessCount;
         this.createdAt = createdAt
         this.updatedAt = updatedAt;
         this.deletedAt = deletedAt;

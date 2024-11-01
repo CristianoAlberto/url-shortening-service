@@ -10,4 +10,5 @@ export interface IUrl {
     updateUrl(shortUrl: string, url: string): Promise<IReturn<Url>>;
     findByShortUrl(shortUrL: string): Promise<IReturn<Url>>;
     delete(shortUrL: string): Promise<IReturn<Url>>;
+    showStats(shortUrL: string): Promise<IReturn<Url>>;
 }
