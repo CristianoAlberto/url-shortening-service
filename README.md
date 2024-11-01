@@ -38,3 +38,8 @@ Este é um serviço de encurtamento de URLs desenvolvido com Node.js, TypeScript
 4. Iniciar o projecto:
     ```bash
      npm run go
+
+  ## Recursos e Referências
+
+- [URL Shortening Service Roadmap](https://roadmap.sh/projects/url-shortening-service) - Guia para o desenvolvimento e boas práticas em um projeto de encurtamento de URLs.
+
